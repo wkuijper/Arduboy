@@ -249,6 +249,32 @@ void ArduboyCore::paintScreen(unsigned char image[])
   while (!(SPSR & _BV(SPIF))) { } // wait for the last byte to be sent
 }
 
+// paint from a memory buffer, this should be FAST as it's likely what
+// will be used by any buffer based subclass
+void ArduboyCore::paintStripe(unsigned char stripe[])
+{
+  uint8_t c;
+  int i = 0;
+
+  SPDR = stripe[i++]; // set the first SPI data byte to get things started
+
+  // the code to iterate the loop and get the next byte from the buffer is
+  // executed while the previous byte is being sent out by the SPI controller
+  while (i < WIDTH)
+  {
+    // get the next byte. It's put in a local variable so it can be sent as
+    // as soon as possible after the sending of the previous byte has completed
+    c = stripe[i++];
+
+    while (!(SPSR & _BV(SPIF))) { } // wait for the previous byte to be sent
+
+    // put the next byte in the SPI data register. The SPI controller will
+    // clock it out while the loop continues and gets the next byte ready
+    SPDR = c;
+  }
+  while (!(SPSR & _BV(SPIF))) { } // wait for the last byte to be sent
+}
+
 void ArduboyCore::blank()
 {
   for (int i = 0; i < (HEIGHT*WIDTH)/8; i++)

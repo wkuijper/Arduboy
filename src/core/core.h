@@ -230,6 +230,13 @@ public:
      */
     void static paintScreen(unsigned char image[]);
 
+    /// paints a horizontal stripe left-to-right across the screen directly to hardware (from RAM)
+    /*
+     * Each byte will be 8 vertical pixels, painted in the same order as
+     * explained above in paint8Pixels.
+     */
+    void static paintStripe(unsigned char image[]);
+
     /// paints a blank (black) screen to hardware
     void static blank();
 

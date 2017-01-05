@@ -1,5 +1,8 @@
 /*
 Buttons example
+
+Jan 4, 2017
+Copyright (C) 2017 Wouter Kuijper
 June 11, 2015
 Copyright (C) 2015 David Martinez
 All rights reserved.
@@ -12,7 +15,7 @@ License as published by the Free Software Foundation; either
 version 2.1 of the License, or (at your option) any later version.
 */
 
-#include "Arduboy.h"
+#include <ArduboyStriped.h>
 
 // Make an instance of arduboy used for many functions
 Arduboy arduboy;
@@ -46,6 +49,7 @@ byte y;
 // This function runs once in your game.
 // use it for anything that needs to be set only once in your game.
 void setup() {
+  
   //initiate arduboy instance
   arduboy.begin();
 
@@ -62,10 +66,11 @@ void setup() {
 // our main game loop, this runs once every cycle/frame.
 // this is where our game logic goes.
 void loop() {
+  
   // pause render until it's time for the next frame
   if (!(arduboy.nextFrame()))
     return;
-
+  
   // the next couple of lines will deal with checking if the D-pad buttons
   // are pressed and move our text accordingly.
   // We check to make sure that x and y stay within a range that keeps the
@@ -91,16 +96,14 @@ void loop() {
     y++;
   }
 
-
-  // we clear our screen to black
-  arduboy.clear();
-
-  // we set our cursor x pixels to the right and y down from the top
-  arduboy.setCursor(x, y);
-
-  // then we print to screen what is stored in our text variable we declared earlier
-  arduboy.print(text);
-
-  // then we finaly we tell the arduboy to display what we just wrote to the display.
-  arduboy.display();
+  while (arduboy.needsStripe()) {
+    arduboy.clearStripe();
+    arduboy.drawCircle(WIDTH/2, HEIGHT/2, (HEIGHT-4)/2, 1);
+    if (arduboy.smallCharIntersectsStripe(y)) { 
+      for (byte i = 0; i < sizeof(text)-1; i++) {
+        arduboy.drawSmallChar(x + i*6, y, text[i], 1, 0);
+      }
+    }
+    arduboy.displayStripe();
+  }
 }

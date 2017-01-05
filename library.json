@@ -1,14 +1,13 @@
 {
-    "name": "Arduboy",
+    "name": "ArduboyStriped",
     "keywords": "arduboy, game",
     "description": "This library is for content creation on the Arduboy, a portable gaming platform",
     "repository":
     {
         "type": "git",
-        "url": "https://github.com/Arduboy/Arduboy.git"
+        "url": "https://github.com/wkuijper/arduboystriped.git"
     },
-    "version": "1.1.1",
-    "exclude": "extras",
+    "version": "2.0.0",
     "frameworks": "arduino",
     "platforms": "atmelavr"
 }

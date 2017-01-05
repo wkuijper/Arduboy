@@ -1,5 +1,40 @@
-Arduboy Library
-===============
+ArduboyStriped Library
+======================
+
+The ArduboyStriped library is a fork of the original Arduboy library which
+can be found at https://github.com/arduboy/arduboy.git
+
+The only change from the original is an intervention to the rendering
+model.  The original library uses a full off-screen framebuffer as a
+target for all high-level text and drawing operations. This
+framebuffer is then transfered to the screen in one go as soon as the
+frame is fuly drawn. This way of doing things is convenient for the
+application developer but it also costs a lot of memory, one kilobyte
+to be exact, which comes down to 40% of the total available memory.
+
+In order to reclaim some of the memory this library replaces the
+framebuffer with a stripebuffer which is only 128 bytes or 5% of the
+total available memory.
+
+Replacing the framebuffer with a stripebuffer does come at a certain
+cost in convenience: it is no longer possible to draw the frame and
+then transfer it in one go, instead the 64 rows of the frame needs to
+be built up and transfered in 8 increments, corresponding to 8 stripes
+of 8 rows each.
+
+It is still possible to use most of the Arduboy drawing primitives
+like text, rectangles, circles, lines etc. The only catch is that a
+primitive that intersects multiple stripes needs to be drawn multiple
+times. This costs extra processing time, so in effect we have
+sacrificed some speed to gain some memory. For applications that
+really need the extra memory this is not a bad tradeoff to make.
+
+For details on how to use the ArduboyStriped library look at the
+example code included in the examples folder.
+
+Below follows the verbatim README from the original Arduboy library.
+
+# Arduboy Library
 
 Welcome to [Arduboy](https://www.arduboy.com)! This `README` will provide an 
 introduction to the Arduboy platform and the Arduboy Library.
