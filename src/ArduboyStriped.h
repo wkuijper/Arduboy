@@ -50,7 +50,7 @@ public:
   boolean notPressed(uint8_t buttons);
 
   /// Initializes the hardware
-  void begin();
+  void beginNoLogo();
 
   /// Boot utils such as flashlight, etc
   void inline bootUtils() __attribute__((always_inline));

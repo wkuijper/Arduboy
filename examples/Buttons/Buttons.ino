@@ -51,7 +51,7 @@ byte y;
 void setup() {
   
   //initiate arduboy instance
-  arduboy.begin();
+  arduboy.beginNoLogo();
 
   // here we set the framerate to 30, we do not need to run at default 60 and
   // it saves us battery life.

@@ -14,7 +14,7 @@ Arduboy::Arduboy()
 
 }
 
-void Arduboy::begin()
+void Arduboy::beginNoLogo()
 {
   boot(); // required
   bootUtils();
